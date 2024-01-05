@@ -1,1 +1,3 @@
-# android_FCMpush
+# Coding Test
+
+해당 repository는 코딩테스트 준비 과정에서 공부했던 코드들을 저장하는 곳입니다.
