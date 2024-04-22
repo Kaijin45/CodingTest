@@ -13,8 +13,8 @@ public class Main{
         
         st = new StringTokenizer(br.readLine(), " ");
         
-        int a = Integer.parseInt(st.nextToken());
-        int b = Integer.parseInt(st.nextToken());
+        long a = Integer.parseInt(st.nextToken());
+        long b = Integer.parseInt(st.nextToken());
         
         a = a*a;
         b = b*b;
