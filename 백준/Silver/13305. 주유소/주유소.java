@@ -11,13 +11,28 @@ public class Main{
         int city_num = Integer.parseInt(br.readLine());
         
         StringTokenizer st = new StringTokenizer(br.readLine(), " ");
-        long total_length = 0;
-        
-        for(int i = 1; i< city_num; i++){
-            total_length += Integer.parseInt(st.nextToken());
+        long[] length = new long[city_num-1];
+        for(int i = 0; i< city_num-1; i++){
+            length[i] = Integer.parseInt(st.nextToken());
         }
         
-        bw.write(total_length+"\n");
+        st = new StringTokenizer(br.readLine(), " ");
+        long[] cost = new long[city_num];
+        for(int i = 0; i < city_num; i++){
+            cost[i] = Integer.parseInt(st.nextToken());
+        }
+        
+        long lowest_cost = cost[0];
+        long total_cost = 0;
+        
+        for(int i = 0; i < city_num-1; i++){
+            if(lowest_cost > cost[i]){
+                lowest_cost = cost[i];
+            }
+            total_cost += lowest_cost * length[i]; 
+        }
+        
+        bw.write(total_cost+"\n");
         bw.flush();
         bw.close();
     }
