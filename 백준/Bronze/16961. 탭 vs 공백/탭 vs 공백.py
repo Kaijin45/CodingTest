@@ -3,9 +3,7 @@ fight_check = [0]*367
 guest_count = [0]*367
 VIP_book = 0
 
-while(N):
-    N -= 1
-    
+for _ in range(N):
     c, s, e = input().split()
     s = int(s)
     e = int(e)
