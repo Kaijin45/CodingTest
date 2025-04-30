@@ -7,12 +7,16 @@ maze = []
 for _ in range(n):
     maze.append(list(map(int, input().strip())))
 
+visited = [[False for _ in range(m)]for _ in range(n)]
+passed = [[0 for _ in range(m)] for _ in range(n)]
+
 def BFS(x, y):
     dx = [-1, 1, 0, 0]
     dy = [0, 0, -1, 1]
     
-    queue = deque()
-    queue.append((x,y))
+    queue = deque([(x,y)])
+    passed[x][y] = maze[x][y]
+    visited[x][y] = True
     
     while queue:
         x, y = queue.popleft()
@@ -23,9 +27,10 @@ def BFS(x, y):
                 continue
             if maze[nx][ny] == 0:
                 continue
-            if maze[nx][ny]==1:
-                maze[nx][ny] = maze[x][y]+1
+            if maze[nx][ny] == 1 and not visited[nx][ny]:
+                visited[nx][ny] = visited
+                passed[nx][ny] = passed[x][y] + maze[nx][ny]
                 queue.append((nx,ny))
-    return maze[n-1][m-1]
+    return passed[n-1][m-1]
 
 print(BFS(0,0))
