@@ -10,4 +10,4 @@ for _ in range(total):
 score_list.sort()
 
 for i in range(7):
-    print("{:.3f}".format(score_list[i]))
+    print("%.3f"%score_list[i])
