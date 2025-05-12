@@ -1,46 +1,68 @@
+import sys
+input = sys.stdin.readline
 from collections import deque
-
-def BFS(x,y):
-    q.append((x,y))
-    dx = [-1,0,1,0]
-    dy = [0,1,0,-1]
-    visited[x][y] = 1
-    while q:
-        x, y = q.popleft()
-        for d in range(4):
-            nx = x + dx[d]
-            ny = y + dy[d]
-            # 인덱스 범위 안에 있으면서, 같은 색이면서, 방문 안한 경우
-            if 0<=nx<N and 0<=ny<N and a[nx][ny] == a[x][y] and not visited[nx][ny]:
-                visited[nx][ny] = 1  # 방문체크 후 큐에 넣음
-                q.append((nx,ny))
-
+sys.setrecursionlimit(10**4)
 
 N = int(input())
-a = [list(input()) for _ in range(N)]
-q = deque()
+if N == 1:
+    print("1 1")
+    sys.exit(0)
+    
+picture = []
+visit_normal = [[False for _ in range(N)] for _ in range(N)]
+visit_RG = [[False for _ in range(N)] for _ in range(N)]
 
-# 적록색약 아닌 경우
-visited = [[0] * N for _ in range(N)]
-cnt1 = 0
+for _ in range(N):
+    picture.append(list(input().strip()))
+    
+count_normal = 0
+count_RG = 0
+dx = [-1, 1, 0, 0]
+dy = [0, 0, -1, 1]
+
+def BFS_RG(g, x, y, visit):
+    queue = deque()
+    queue.append((y,x))
+    visit[y][x] = True
+    rem = g[y][x]
+    
+    while queue:
+        y, x = queue.popleft()
+        for k in range(4):
+            nx = x + dx[k]
+            ny = y + dy[k]
+            if 0 <= nx < N and 0 <= ny < N and not visit[ny][nx]:
+                if rem == 'R' or rem == 'G':
+                    if g[ny][nx] == 'R' or g[ny][nx] == 'G':
+                        queue.append((ny, nx))
+                        visit[ny][nx] = True
+                else:
+                    if g[ny][nx] == 'B':
+                        queue.append((ny, nx))
+                        visit[ny][nx] = True
+    
+def BFS_normal(g, x, y, visit):
+    queue = deque()
+    queue.append((y,x))
+    visit[y][x] = True
+    rem = g[y][x]
+    
+    while queue:
+        y, x = queue.popleft()
+        for k in range(4):
+            nx = x + dx[k]
+            ny = y + dy[k]
+            if 0 <= nx < N and 0 <= ny < N and not visit[ny][nx] and g[ny][nx] == rem:
+                queue.append((ny, nx))
+                visit[ny][nx] = True
+                
 for i in range(N):
     for j in range(N):
-        if not visited[i][j]:  # 아직 방문 안한 경우만 체킹
-            BFS(i,j)
-            cnt1 += 1
+        if not visit_normal[i][j]:
+            BFS_normal(picture, j, i, visit_normal)
+            count_normal += 1
+        if not visit_RG[i][j]:
+            BFS_RG(picture, j, i, visit_RG)
+            count_RG += 1
 
-# 적록색약인 경우
-for i in range(N):
-    for j in range(N):
-        if a[i][j] == 'G':
-            a[i][j] = 'R'
-
-visited = [[0] * N for _ in range(N)]
-cnt2 = 0
-for i in range(N):
-    for j in range(N):
-        if not visited[i][j]:
-            BFS(i,j)
-            cnt2 += 1
-
-print(cnt1, cnt2)
+print(count_normal, count_RG)
