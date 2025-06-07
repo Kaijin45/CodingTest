@@ -1,10 +1,13 @@
 sumValue = int(input())
-answer = 0
+calculation = sumValue
 
-while True:
-    if sumValue > answer:
-        answer += 1
-        sumValue -= answer
+if sumValue == 1:
+    print(1)
+    exit(0)
+
+for i in range(1, sumValue+1):
+    if calculation >= i:
+        calculation -= i
     else:
-        print(answer)
+        print(i-1)
         break
